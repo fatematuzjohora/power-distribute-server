@@ -53,7 +53,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("welcome to power distribute");
+  res.send("welcome to power distribute server");
 });
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
