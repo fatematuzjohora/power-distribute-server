@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const ObjectId = require("mongodb").ObjectID;
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -29,10 +30,22 @@ async function run() {
       res.send(billingList);
     });
 
-    app.post("/billing-list", async (req, res) => {
+    app.post("/add-billing", async (req, res) => {
       const addBilling = req.body;
       const result = await billingCollection.insertOne(addBilling);
       res.send(result);
+    });
+    app.delete("/delete-billing/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await billingCollection.deleteOne(query);
+      res.send(result);
+    });
+    app.get("/consumer/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const consumer = await billingCollection.findOne(query);
+      res.send(consumer);
     });
   } finally {
   }
